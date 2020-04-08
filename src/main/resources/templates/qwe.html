@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="/qqq">
+    部门：<select id="bm" name="deptno">
+
+</select><input type="submit" value="查找"></form>
+<a href="/add">新增</a>
+<table>
+    <tr>
+        <td>员工编号</td>
+        <td>姓名</td>
+        <td>职位</td>
+        <td>入职时间</td>
+        <td>工资</td>
+        <td>补助</td>
+        <td>所在部门</td>
+        <td>操作</td>
+    </tr>
+    <tr th:each="l:${page.list}">
+        <td th:text="${l.empno}"></td>
+        <td th:text="${l.ename}"></td>
+        <td th:text="${l.job}"></td>
+        <td th:text="${#dates.format(l.hiredate,'yyyy-MM-dd')}"></td>
+        <td th:text="${l.sal}"></td>
+        <td th:text="${l.comm}"></td>
+        <td th:text="${l.dname}"></td>
+        <td><a href="javascript:void(0);" th:onclick="|javascript:deleteUser(${l.empno},this)|">删除</a>&nbsp;<a
+                th:href="@{/xgcx(empno=${l.empno})}">修改</a></td>
+    </tr>
+</table>
+<a th:href="@{/qqq(PageNum=${page.PageNum-1})}">上一页</a>
+<a th:href="@{/qqq(PageNum=1)}">首页</a>
+<a th:href="@{/qqq(PageNum=${page.PageNum+1})}">下一页</a>
+<a th:href="@{/qqq(PageNum=${page.Pages})}">尾页</a>
+
+<script type="text/javascript" src="/js/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+
+
+        $("#bm").load("asd", function (result) {
+            var b = eval(result);
+            $("#bm").append("<option value=0>请选择</option>")
+            $(b).each(function () {
+                $("#bm").append(" <option value=" + this.deptno + ">" + this.dname + "</option>");
+            })
+        })
+
+    })
+
+    function deleteUser(id, obj) {
+        $.post("sc", {"empno": id}, function (result) {
+            if (result == "1") {
+                var tr = $(obj).parents("tr");
+                var index = tr.index();
+                tr.remove();
+                alert("成功");
+            } else {
+                alert("失败");
+            }
+        })
+    }
+</script>
+</body>
+
+</html>

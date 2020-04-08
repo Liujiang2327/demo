@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/xz" method="post">
+    姓名：<input type="text" name="ename"><br>
+    职位：<select name="job">
+    <option value="小职员">小职员</option>
+    <option value="分析员">分析员</option>
+    <option value="经理">经理</option>
+    <option value="销售">销售</option>
+    <option value="董事长">董事长</option>
+</select><br>
+    上级经理：<select name="mgr" id="sj"></select>
+    入职时间：<input type="text" name="hiredate"><br>
+    基本工资：<input type="text" name="sal"><br>
+    补助：<input type="text" name="comm"><br>
+    部门：<select id="bm" name="deptno">
+
+</select><br>
+    <input type="submit" value="新增">
+</form>
+
+
+<script type="text/javascript" src="/js/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+
+
+        $("#bm").load("asd", function (result) {
+            var b = eval(result);
+
+            $(b).each(function () {
+                $("#bm").append(" <option value=" + this.deptno + ">" + this.dname + "</option>");
+            })
+        })
+
+        $("#sj").load("asd1", function (result) {
+            var b = eval(result);
+
+            $(b).each(function () {
+                $("#sj").append(" <option value=" + this.empno + ">" + this.ename + "</option>");
+            })
+        })
+    })
+</script>
+
+</body>
+</html>
